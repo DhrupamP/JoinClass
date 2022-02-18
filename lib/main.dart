@@ -64,7 +64,7 @@ class _DaysBarState extends State<DaysBar> {
       child: Scaffold(
         body: Stack(children: [
           Align(
-            alignment: Alignment(0, -0.75),
+            alignment: Alignment(0, -0.65),
             child: days[selectedindex],
           ),
           Align(

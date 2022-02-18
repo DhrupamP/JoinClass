@@ -1,6 +1,8 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+final database = FirebaseDatabase.instance.ref();
+
 class DayPage extends StatefulWidget {
   const DayPage({Key? key, required this.day}) : super(key: key);
   final String day;
@@ -9,7 +11,6 @@ class DayPage extends StatefulWidget {
 }
 
 class _DayPageState extends State<DayPage> {
-  final database = FirebaseDatabase.instance.ref();
   List ans = [];
 
   @override
@@ -49,23 +50,37 @@ class _DayPageState extends State<DayPage> {
               children: [
                 Cell(
                   sub: ans[1].toString(),
+                  day: widget.day,
+                  per: 1,
                 ),
                 Cell(
                   sub: ans[2].toString(),
+                  day: widget.day,
+                  per: 2,
                 ),
                 Cell(
                   sub: ans[3].toString(),
+                  day: widget.day,
+                  per: 3,
                 ),
                 Cell(
                   sub: ans[4].toString(),
+                  day: widget.day,
+                  per: 4,
                 )
               ],
             ),
-            ElevatedButton(
-                onPressed: () {
-                  database.child("/$d").child("1").set("hello");
-                },
-                child: Text("edit"))
+            // ElevatedButton(
+            //     onPressed: () {
+            //       setState(() {
+            //         showDialog(
+            //             context: context,
+            //             builder: (_) {
+            //               return EditAlert();
+            //             });
+            //       });
+            //     },
+            //     child: Text("edit"))
           ],
         ),
       ),
@@ -74,8 +89,12 @@ class _DayPageState extends State<DayPage> {
 }
 
 class Cell extends StatefulWidget {
-  const Cell({Key? key, required this.sub}) : super(key: key);
+  const Cell(
+      {Key? key, required this.sub, required this.day, required this.per})
+      : super(key: key);
   final String sub;
+  final String day;
+  final int per;
   @override
   _CellState createState() => _CellState();
 }
@@ -92,7 +111,34 @@ class _CellState extends State<Cell> {
           color: Colors.blue,
           border: Border.all(color: Colors.black),
         ),
-        child: Center(child: Text(widget.sub)),
+        child: Column(
+          children: [
+            Text(
+              widget.sub,
+              style: TextStyle(fontSize: 20),
+            ),
+            Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        showDialog(
+                            context: context,
+                            builder: (_) {
+                              return EditAlert(
+                                day: widget.day,
+                                period: widget.per,
+                              );
+                            });
+                      });
+                    },
+                    icon: Icon(Icons.edit))
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -116,5 +162,44 @@ class _TimeCellState extends State<TimeCell> {
         border: Border.all(color: Colors.black),
       ),
     );
+  }
+}
+
+class EditAlert extends StatefulWidget {
+  const EditAlert({Key? key, required this.day, required this.period})
+      : super(key: key);
+  final String day;
+  final int period;
+  @override
+  _EditAlertState createState() => _EditAlertState();
+}
+
+class _EditAlertState extends State<EditAlert> {
+  @override
+  Widget build(BuildContext context) {
+    TextEditingController _mycontroller = TextEditingController();
+    String d = widget.day;
+
+    final ref = database.child("/$d");
+    return AlertDialog(
+        content: Container(
+      height: 200,
+      child: Column(
+        children: [
+          TextField(
+            controller: _mycontroller,
+            decoration: InputDecoration(hintText: "Subject name"),
+          ),
+          ElevatedButton(
+              onPressed: () {
+                ref
+                    .child("/" + widget.period.toString())
+                    .set(_mycontroller.text);
+                Navigator.pop(context);
+              },
+              child: Text("Edit"))
+        ],
+      ),
+    ));
   }
 }
