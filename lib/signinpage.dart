@@ -39,7 +39,7 @@ class _SignInState extends State<SignIn> {
                   ref.child("/123").set("dhrupam");
                 });
               },
-              child: Text("Signin using email"),
+              child: Text("Signin"),
             ),
           ),
         ],
