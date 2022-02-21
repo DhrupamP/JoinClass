@@ -15,11 +15,12 @@ class _DayPageState extends State<DayPage> {
 
   @override
   void initState() {
+    addList();
     super.initState();
   }
 
   void getData(String da) {
-    final dayref = database.child("/$da");
+    final dayref = database.child("/uid/$da");
     dayref.onValue.listen((event) {
       setState(() {
         ans = event.snapshot.value as List;
@@ -34,8 +35,8 @@ class _DayPageState extends State<DayPage> {
     setState(() {
       getData(d);
     });
-    return Container(
-      child: SingleChildScrollView(
+    return Scaffold(
+      body: SingleChildScrollView(
         child: Row(
           children: [
             Column(
@@ -194,8 +195,16 @@ class _EditAlertState extends State<EditAlert> {
   }
 }
 
-List<String> dummy = ["124", "hello", "world"];
+Map<String, Map<String, String>> dummy = {
+  "Monday": {"": ""},
+  "Tuesday": {},
+  "Wednesday": {},
+  "Thursday": {},
+  "Friday": {},
+  "Saturday": {},
+};
+List<String> period = ["sub", "time", "link"];
 void addList() {
   final refer = database;
-  refer.child("/abcd/2").set(dummy);
+  refer.child("/uid").child("Friday/1").set(period);
 }
