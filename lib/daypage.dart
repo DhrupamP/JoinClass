@@ -70,17 +70,7 @@ class _DayPageState extends State<DayPage> {
                 )
               ],
             ),
-            // ElevatedButton(
-            //     onPressed: () {
-            //       setState(() {
-            //         showDialog(
-            //             context: context,
-            //             builder: (_) {
-            //               return EditAlert();
-            //             });
-            //       });
-            //     },
-            //     child: Text("edit"))
+            ElevatedButton(onPressed: addList, child: Text("akfgSDBDV"))
           ],
         ),
       ),
@@ -194,7 +184,7 @@ class _EditAlertState extends State<EditAlert> {
               onPressed: () {
                 ref
                     .child("/" + widget.period.toString())
-                    .set(_mycontroller.text);
+                    .set("/" + _mycontroller.text);
                 Navigator.pop(context);
               },
               child: Text("Edit"))
@@ -202,4 +192,10 @@ class _EditAlertState extends State<EditAlert> {
       ),
     ));
   }
+}
+
+List<String> dummy = ["124", "hello", "world"];
+void addList() {
+  final refer = database;
+  refer.child("/abcd/2").set(dummy);
 }
