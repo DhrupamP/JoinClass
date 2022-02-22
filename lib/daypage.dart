@@ -2,6 +2,19 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 final database = FirebaseDatabase.instance.ref();
+late DatabaseReference dayrefer;
+var ans;
+
+void getData(String da) async {
+  final dayref = database.child("/uid/Friday/");
+  dayrefer = dayref;
+  dayref.onValue.listen((event) async {
+    ans = await event.snapshot.value;
+    print(";adsnfvlsdnV");
+
+    print(ans[2][0]);
+  });
+}
 
 class DayPage extends StatefulWidget {
   const DayPage({Key? key, required this.day}) : super(key: key);
@@ -11,29 +24,15 @@ class DayPage extends StatefulWidget {
 }
 
 class _DayPageState extends State<DayPage> {
-  List ans = [];
-
   @override
   void initState() {
-    super.initState();
-  }
+    getData(widget.day);
 
-  void getData(String da) {
-    final dayref = database.child("/uid/$da");
-    dayref.onValue.listen((event) {
-      setState(() {
-        ans = event.snapshot.value as List;
-        // print(ans);
-      });
-    });
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    String d = widget.day;
-    setState(() {
-      getData(d);
-    });
     return Scaffold(
       body: SingleChildScrollView(
         child: Row(
@@ -49,25 +48,25 @@ class _DayPageState extends State<DayPage> {
             Column(
               children: [
                 Cell(
-                  sub: ans[1].toString(),
+                  sub: ans[1][0],
                   day: widget.day,
                   per: 1,
                 ),
-                Cell(
-                  sub: ans[2].toString(),
-                  day: widget.day,
-                  per: 2,
-                ),
-                Cell(
-                  sub: ans[3].toString(),
-                  day: widget.day,
-                  per: 3,
-                ),
-                Cell(
-                  sub: ans[4].toString(),
-                  day: widget.day,
-                  per: 4,
-                )
+                // Cell(
+                //   sub: ans[2].toString(),
+                //   day: widget.day,
+                //   per: 2,
+                // ),
+                // Cell(
+                //   sub: ans[3].toString(),
+                //   day: widget.day,
+                //   per: 3,
+                // ),
+                // Cell(
+                //   sub: ans[4].toString(),
+                //   day: widget.day,
+                //   per: 4,
+                // )
               ],
             ),
             ElevatedButton(onPressed: addList, child: Text("akfgSDBDV"))
@@ -80,16 +79,21 @@ class _DayPageState extends State<DayPage> {
 
 class Cell extends StatefulWidget {
   const Cell(
-      {Key? key, required this.sub, required this.day, required this.per})
+      {Key? key, required this.day, required this.per, required this.sub})
       : super(key: key);
-  final String sub;
   final String day;
   final int per;
+  final String sub;
   @override
   _CellState createState() => _CellState();
 }
 
 class _CellState extends State<Cell> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -104,7 +108,7 @@ class _CellState extends State<Cell> {
         child: Column(
           children: [
             Text(
-              widget.sub,
+              "widget.",
               style: TextStyle(fontSize: 20),
             ),
             Spacer(),
