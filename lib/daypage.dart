@@ -4,16 +4,21 @@ import 'package:flutter/material.dart';
 final database = FirebaseDatabase.instance.ref();
 late DatabaseReference dayrefer;
 var ans;
+bool isEmpty = true;
 
 void getData(String da) async {
   final dayref = database.child("/uid/Friday/");
   dayrefer = dayref;
   dayref.onValue.listen((event) async {
     ans = await event.snapshot.value;
+
     print(";adsnfvlsdnV");
 
     print(ans[2][0]);
   });
+  if (ans != null || ans == []) {
+    isEmpty = false;
+  }
 }
 
 class DayPage extends StatefulWidget {
@@ -26,54 +31,65 @@ class DayPage extends StatefulWidget {
 class _DayPageState extends State<DayPage> {
   @override
   void initState() {
-    getData(widget.day);
+    setState(() {
+      getData(widget.day);
+    });
 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Row(
-          children: [
-            Column(
-              children: [
-                TimeCell(),
-                TimeCell(),
-                TimeCell(),
-                TimeCell(),
-              ],
+    return isEmpty
+        ? Container(
+            child: Center(
+            child: Text("press +"),
+          ))
+        : Scaffold(
+            floatingActionButton: FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: () {},
             ),
-            Column(
-              children: [
-                Cell(
-                  sub: ans[1][0],
-                  day: widget.day,
-                  per: 1,
-                ),
-                // Cell(
-                //   sub: ans[2].toString(),
-                //   day: widget.day,
-                //   per: 2,
-                // ),
-                // Cell(
-                //   sub: ans[3].toString(),
-                //   day: widget.day,
-                //   per: 3,
-                // ),
-                // Cell(
-                //   sub: ans[4].toString(),
-                //   day: widget.day,
-                //   per: 4,
-                // )
-              ],
+            body: SingleChildScrollView(
+              child: Row(
+                children: [
+                  Column(
+                    children: [
+                      TimeCell(),
+                      TimeCell(),
+                      TimeCell(),
+                      TimeCell(),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Cell(
+                        sub: ans[1][0],
+                        day: widget.day,
+                        per: 1,
+                      ),
+                      // Cell(
+                      //   sub: ans[2].toString(),
+                      //   day: widget.day,
+                      //   per: 2,
+                      // ),
+                      // Cell(
+                      //   sub: ans[3].toString(),
+                      //   day: widget.day,
+                      //   per: 3,
+                      // ),
+                      // Cell(
+                      //   sub: ans[4].toString(),
+                      //   day: widget.day,
+                      //   per: 4,
+                      // )
+                    ],
+                  ),
+                  ElevatedButton(onPressed: addList, child: Text("akfgSDBDV"))
+                ],
+              ),
             ),
-            ElevatedButton(onPressed: addList, child: Text("akfgSDBDV"))
-          ],
-        ),
-      ),
-    );
+          );
   }
 }
 
