@@ -15,7 +15,6 @@ class _DayPageState extends State<DayPage> {
 
   @override
   void initState() {
-    addList();
     super.initState();
   }
 

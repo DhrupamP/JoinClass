@@ -3,7 +3,6 @@ import 'daypage.dart';
 
 class TimeTable extends StatefulWidget {
   const TimeTable({Key? key}) : super(key: key);
-
   @override
   _TimeTableState createState() => _TimeTableState();
 }
@@ -49,7 +48,6 @@ class _DaysBarState extends State<DaysBar> {
         selectedindex = index;
       });
     }
-
     return SafeArea(
       child: Scaffold(
         body: Stack(children: [

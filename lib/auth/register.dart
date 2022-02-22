@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:joinclass/constants.dart';
 import 'package:joinclass/timetable.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'login.dart';
 
 final FirebaseAuth _auth=FirebaseAuth.instance;
+final database= FirebaseDatabase.instance.ref();
+
 class Register extends StatefulWidget {
   @override
   _RegisterState createState() => _RegisterState();
@@ -22,6 +25,11 @@ class _RegisterState extends State<Register> {
       /* SharedPreferences pref=await SharedPreferences.getInstance();
       pref.setString('uid', username);*/
       uid=user.user!.uid;
+      var map={};
+      for(var i=0;i<6;i++)
+        map[i]="";
+      //weekDays.forEach((day)=>map[day]="");
+      database.child('/'+uid).set(map);
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){return const TimeTable();}));
     }
   }
