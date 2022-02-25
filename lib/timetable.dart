@@ -48,11 +48,12 @@ class _DaysBarState extends State<DaysBar> {
         selectedindex = index;
       });
     }
+
     return SafeArea(
       child: Scaffold(
         body: Stack(children: [
           Align(
-            alignment: Alignment(0, -0.65),
+            alignment: Alignment(0, -0.5),
             child: days[selectedindex],
           ),
           Align(
