@@ -26,9 +26,7 @@ class _RegisterState extends State<Register> {
       pref.setString('uid', username);*/
       uid=user.user!.uid;
       var map={};
-      for(var i=0;i<6;i++)
-        map[i]="";
-      //weekDays.forEach((day)=>map[day]="");
+      weekDays.forEach((day)=>map[day]="");
       database.child('/'+uid).set(map);
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context){return const TimeTable();}));
     }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:joinclass/timetable.dart';
 
 import '../auth/register.dart';
 import 'package:joinclass/constants.dart' as constants;
@@ -18,7 +19,6 @@ class _EditAlertState extends State<EditAlert> {
     TextEditingController _subcontroller = TextEditingController();
     TextEditingController _timecontroller = TextEditingController();
     TextEditingController _linkcontroller = TextEditingController();
-
     final ref = database.child(constants.uid + "/" + widget.day);
     return AlertDialog(
         content: Container(
@@ -43,8 +43,10 @@ class _EditAlertState extends State<EditAlert> {
                   "0": _subcontroller.text,
                   "1": _timecontroller.text,
                   "2": _linkcontroller.text
+                }).then((value){
+                  Navigator.pop(context);
                 });
-                Navigator.pop(context);
+
               },
               child: Text("Edit"))
         ],

@@ -48,15 +48,15 @@ class _CellState extends State<Cell> {
               children: [
                 IconButton(
                     onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (_) {
+                            return EditAlert(
+                              day: widget.day,
+                              period: widget.per,
+                            );
+                          });
                       setState(() {
-                        showDialog(
-                            context: context,
-                            builder: (_) {
-                              return EditAlert(
-                                day: widget.day,
-                                period: widget.per,
-                              );
-                            });
                       });
                     },
                     icon: Icon(Icons.edit))

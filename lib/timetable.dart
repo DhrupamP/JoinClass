@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'daypage.dart';
-
+import 'constants.dart';
 class TimeTable extends StatefulWidget {
   const TimeTable({Key? key}) : super(key: key);
   @override
@@ -18,24 +18,12 @@ class _TimeTableState extends State<TimeTable> {
   }
 }
 
-List<Widget> days = [
-  DayPage(day: "Monday"),
-  DayPage(
-    day: "Tuesday",
-  ),
-  DayPage(
-    day: "Wednesday",
-  ),
-  DayPage(day: "Thursday"),
-  DayPage(day: "Friday"),
-  DayPage(day: "Saturday"),
-];
+
 
 int selectedindex = 0;
-
+List<Object?> res=[];
 class DaysBar extends StatefulWidget {
   const DaysBar({Key? key}) : super(key: key);
-
   @override
   State<DaysBar> createState() => _DaysBarState();
 }
@@ -43,18 +31,29 @@ class DaysBar extends StatefulWidget {
 class _DaysBarState extends State<DaysBar> {
   @override
   Widget build(BuildContext context) {
-    void onItemTapped(int index) {
+    void onItemTapped(int index) async{
       setState(() {
         selectedindex = index;
       });
+      dynamic ans=await getData(weekDays[selectedindex]);
+      if(ans!=null){
+        setState(() {
+          res=ans;
+        });}
     }
-
+    changeData()async{
+      dynamic ans=await getData(weekDays[selectedindex]);
+      setState(() {
+        res=ans;
+      });
+    }
+    changeData();
     return SafeArea(
       child: Scaffold(
         body: Stack(children: [
           Align(
             alignment: Alignment(0, -0.5),
-            child: days[selectedindex],
+            child: DayPage(day:weekDays[selectedindex],ans:res)
           ),
           Align(
             alignment: Alignment(0, -1),
