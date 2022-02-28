@@ -31,23 +31,25 @@ class DaysBar extends StatefulWidget {
 class _DaysBarState extends State<DaysBar> {
   @override
   Widget build(BuildContext context) {
-    void onItemTapped(int index) async {
-      setState(() {
-        selectedindex = index;
-      });
+    changeData() async {
       dynamic ans = await getData(weekDays[selectedindex]);
-      if (ans != null) {
+      print(ans);
+      if(ans!=""){
         setState(() {
           res = ans;
         });
       }
-    }
+      else
+        setState(() {
+          res=[];
+        });
 
-    changeData() async {
-      dynamic ans = await getData(weekDays[selectedindex]);
+    }
+    void onItemTapped(int index) async {
       setState(() {
-        res = ans;
+        selectedindex = index;
       });
+      changeData();
     }
 
     changeData();
