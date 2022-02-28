@@ -42,8 +42,8 @@ class _EditAlertState extends State<EditAlert> {
 
     final ref = database.child(constants.uid + "/" + widget.day);
 
-    _subcontroller.text = res[0].toString();
-    _linkcontroller.text = res[2].toString();
+    _subcontroller.text = res== null ? "" : res[0].toString();
+    _linkcontroller.text = res==null ? "" : res[2].toString();
     return AlertDialog(
         content: Container(
       height: 200,
