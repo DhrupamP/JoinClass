@@ -30,7 +30,7 @@ class _DayPageState extends State<DayPage> {
               builder: (_) {
                 return EditAlert(
                   day: widget.day,
-                  period: res.length,
+                  period: res.length==0 ? 1 : res.length,
                 );
               });
         },
@@ -51,7 +51,7 @@ class _DayPageState extends State<DayPage> {
                         per: idx + 1,
                         time: res[idx + 1][1].toString(),
                         day: widget.day,
-                        link: res[idx + 1][2],
+                        link: res[idx + 1][2].toString(),
                       );
                     });
               }),
