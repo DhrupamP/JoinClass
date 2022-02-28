@@ -20,11 +20,30 @@ class EditAlert extends StatefulWidget {
 }
 
 class _EditAlertState extends State<EditAlert> {
+  var res;
+  getPeriod() async {
+    dynamic ans = await constants.getsublink(widget.day, widget.period);
+    setState(() {
+      res = ans;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getPeriod();
+  }
+
   @override
   Widget build(BuildContext context) {
     TextEditingController _subcontroller = TextEditingController();
+
     TextEditingController _linkcontroller = TextEditingController();
+
     final ref = database.child(constants.uid + "/" + widget.day);
+
+    _subcontroller.text = res[0].toString();
+    _linkcontroller.text = res[2].toString();
     return AlertDialog(
         content: Container(
       height: 200,
@@ -53,7 +72,7 @@ class _EditAlertState extends State<EditAlert> {
                 },
               ),
               ElevatedButton(
-                child: Text("Edit start time"),
+                child: Text("Edit end time"),
                 onPressed: () async {
                   final TimeOfDay? result = await showTimePicker(
                       context: context,

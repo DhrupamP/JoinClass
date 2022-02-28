@@ -16,3 +16,10 @@ Future getData(String da) async {
   DatabaseEvent event = await dayref.once();
   return event.snapshot.value;
 }
+
+Future getsublink(String da, int p) async {
+  DatabaseReference dayref =
+      database.child("/" + uid + "/" + da + "/" + p.toString());
+  DatabaseEvent event = await dayref.once();
+  return event.snapshot.value;
+}
