@@ -7,7 +7,8 @@ import 'auth/register.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MaterialApp(
-    home: Register(),
+
+  runApp(const MaterialApp(
+    home: TimeTable(),
   ));
 }

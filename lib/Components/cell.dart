@@ -28,24 +28,34 @@ class _CellState extends State<Cell> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 8.0),
-      child: Container(
-        height: 100,
-        width: 100,
-        decoration: BoxDecoration(
-          color: Colors.blue,
-          border: Border.all(color: Colors.black),
-        ),
-        child: Column(
-          children: [
-            Text(
-              widget.sub,
-              style: TextStyle(fontSize: 20),
-            ),
-            Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+      padding: const EdgeInsets.all(20.0),
+      child: Material(
+        elevation: 2,
+        borderRadius: BorderRadius.all(Radius.circular(30)),
+        child: Container(
+          height: 100,
+          width: 100,
+          decoration: BoxDecoration(
+              color: Color(0xffD3E2E7),
+              // border: Border.all(color: Colors.black),
+              borderRadius: BorderRadius.all(Radius.circular(30))),
+          child: Padding(
+            padding: EdgeInsets.all(20),
+            child: Row(
               children: [
+                Text(
+                  widget.time,
+                  style: TextStyle(fontSize: 20, color: Colors.blueGrey),
+                ),
+                Spacer(),
+                Text(
+                  widget.sub,
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.blueGrey,
+                      fontWeight: FontWeight.bold),
+                ),
+                Spacer(),
                 IconButton(
                     onPressed: () {
                       showDialog(
@@ -59,10 +69,13 @@ class _CellState extends State<Cell> {
                       setState(() {
                       });
                     },
-                    icon: Icon(Icons.edit))
+                    icon: Icon(
+                      Icons.edit,
+                      color: Colors.blueGrey,
+                    ))
               ],
-            )
-          ],
+            ),
+          ),
         ),
       ),
     );

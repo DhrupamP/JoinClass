@@ -1,12 +1,14 @@
-import 'dart:convert';
 import 'Components/cell.dart';
 import 'constants.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 final database = FirebaseDatabase.instance.ref();
+bool isEmpty = false;
+
 class DayPage extends StatefulWidget {
-  const DayPage({Key? key, required this.day,required this.ans}) : super(key: key);
+  const DayPage({Key? key, required this.day, required this.ans})
+      : super(key: key);
   final String day;
   final Object? ans;
   @override
@@ -17,14 +19,20 @@ class _DayPageState extends State<DayPage> {
   var res;
   @override
   Widget build(BuildContext context) {
-    res=widget.ans;
-    return
-         Scaffold(
-            floatingActionButton: FloatingActionButton(
-              child: Icon(Icons.add),
-              onPressed: () {},
-            ),
-            body: Padding(
+    res = widget.ans;
+
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xff005D76),
+        child: Icon(Icons.add),
+        onPressed: () {},
+      ),
+      body: isEmpty
+          ? Container(
+              child: Center(
+              child: Text("Press + to add period"),
+            ))
+          : Padding(
               padding: EdgeInsets.only(top: 60),
               child: FutureBuilder(builder: (context, snapshot) {
                 return ListView.builder(
@@ -40,6 +48,6 @@ class _DayPageState extends State<DayPage> {
                     });
               }),
             ),
-          );
+    );
   }
 }

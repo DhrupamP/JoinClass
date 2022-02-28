@@ -4,6 +4,12 @@ import 'package:joinclass/timetable.dart';
 import '../auth/register.dart';
 import 'package:joinclass/constants.dart' as constants;
 
+int? shr;
+int? smin;
+
+int? ehr;
+int? emin;
+
 class EditAlert extends StatefulWidget {
   const EditAlert({Key? key, required this.day, required this.period})
       : super(key: key);
@@ -17,7 +23,6 @@ class _EditAlertState extends State<EditAlert> {
   @override
   Widget build(BuildContext context) {
     TextEditingController _subcontroller = TextEditingController();
-    TextEditingController _timecontroller = TextEditingController();
     TextEditingController _linkcontroller = TextEditingController();
     final ref = database.child(constants.uid + "/" + widget.day);
     return AlertDialog(
@@ -29,9 +34,41 @@ class _EditAlertState extends State<EditAlert> {
             controller: _subcontroller,
             decoration: InputDecoration(hintText: "Subject name"),
           ),
-          TextField(
-            controller: _timecontroller,
-            decoration: InputDecoration(hintText: "Time"),
+          Row(
+            children: [
+              ElevatedButton(
+                child: Text("Edit start time"),
+                onPressed: () async {
+                  final TimeOfDay? result = await showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay.now(),
+                      builder: (context, child) {
+                        return MediaQuery(
+                            data: MediaQuery.of(context)
+                                .copyWith(alwaysUse24HourFormat: false),
+                            child: child!);
+                      });
+                  shr = result?.hour;
+                  smin = result?.minute;
+                },
+              ),
+              ElevatedButton(
+                child: Text("Edit start time"),
+                onPressed: () async {
+                  final TimeOfDay? result = await showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay.now(),
+                      builder: (context, child) {
+                        return MediaQuery(
+                            data: MediaQuery.of(context)
+                                .copyWith(alwaysUse24HourFormat: false),
+                            child: child!);
+                      });
+                  ehr = result?.hour;
+                  emin = result?.minute;
+                },
+              ),
+            ],
           ),
           TextField(
             controller: _linkcontroller,
@@ -41,12 +78,11 @@ class _EditAlertState extends State<EditAlert> {
               onPressed: () {
                 ref.child("/" + widget.period.toString()).set({
                   "0": _subcontroller.text,
-                  "1": _timecontroller.text,
+                  "1": "$shr:$smin-$ehr:$emin",
                   "2": _linkcontroller.text
-                }).then((value){
+                }).then((value) {
                   Navigator.pop(context);
                 });
-
               },
               child: Text("Edit"))
         ],
