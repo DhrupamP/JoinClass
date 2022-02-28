@@ -3,6 +3,7 @@ import 'daypage.dart';
 import 'constants.dart';
 import 'auth/register.dart';
 import 'auth/login.dart';
+
 class TimeTable extends StatefulWidget {
   const TimeTable({Key? key}) : super(key: key);
   @override
@@ -32,22 +33,26 @@ class DaysBar extends StatefulWidget {
 class _DaysBarState extends State<DaysBar> {
   @override
   Widget build(BuildContext context) {
-    void logOut(){
-      auth.signOut().then((value) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){return Login();})));
+    void logOut() {
+      auth.signOut().then((value) => Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) {
+            return Login();
+          })));
     }
+
     changeData() async {
       dynamic ans = await getData(weekDays[selectedindex]);
       //print(ans);
-      if(ans!="" && ans!=null){
+      if (ans != "" && ans != null) {
         setState(() {
           res = ans;
         });
-      }
-      else
+      } else
         setState(() {
-          res=[];
+          res = [];
         });
     }
+
     void onItemTapped(int index) async {
       setState(() {
         selectedindex = index;
@@ -58,14 +63,14 @@ class _DaysBarState extends State<DaysBar> {
     changeData();
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text('Time Table'),
-          centerTitle: true,
-          actions: [IconButton(
+        appBar: AppBar(title: Text('Time Table'), centerTitle: true, actions: [
+          IconButton(
             icon: Icon(Icons.logout),
-            onPressed: (){logOut();},
-          ),]
-        ),
+            onPressed: () {
+              logOut();
+            },
+          ),
+        ]),
         body: Stack(children: [
           Align(
               alignment: Alignment(0, -0.5),

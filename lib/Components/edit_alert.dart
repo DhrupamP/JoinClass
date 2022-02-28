@@ -42,21 +42,24 @@ class _EditAlertState extends State<EditAlert> {
 
     final ref = database.child(constants.uid + "/" + widget.day);
 
-    _subcontroller.text = res== null ? "" : res[0].toString();
-    _linkcontroller.text = res==null ? "" : res[2].toString();
+    _subcontroller.text = res == null ? "" : res[0].toString();
+    _linkcontroller.text = res == null ? "" : res[2].toString();
     return AlertDialog(
         content: Container(
-      height: 200,
+      height: 260,
       child: Column(
         children: [
           TextField(
             controller: _subcontroller,
             decoration: InputDecoration(hintText: "Subject name"),
           ),
+          SizedBox(
+            height: 20,
+          ),
           Row(
             children: [
               ElevatedButton(
-                child: Text("Edit start time"),
+                child: Text("Start time"),
                 onPressed: () async {
                   final TimeOfDay? result = await showTimePicker(
                       context: context,
@@ -70,9 +73,17 @@ class _EditAlertState extends State<EditAlert> {
                   shr = result?.hour;
                   smin = result?.minute;
                 },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    Color(0xff005D76),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: 20,
               ),
               ElevatedButton(
-                child: Text("Edit end time"),
+                child: Text("End time"),
                 onPressed: () async {
                   final TimeOfDay? result = await showTimePicker(
                       context: context,
@@ -86,24 +97,41 @@ class _EditAlertState extends State<EditAlert> {
                   ehr = result?.hour;
                   emin = result?.minute;
                 },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    Color(0xff005D76),
+                  ),
+                ),
               ),
             ],
+          ),
+          SizedBox(
+            height: 20,
           ),
           TextField(
             controller: _linkcontroller,
             decoration: InputDecoration(hintText: "link"),
           ),
+          SizedBox(
+            height: 20,
+          ),
           ElevatedButton(
-              onPressed: () {
-                ref.child("/" + widget.period.toString()).set({
-                  "0": _subcontroller.text,
-                  "1": "$shr:$smin-$ehr:$emin",
-                  "2": _linkcontroller.text
-                }).then((value) {
-                  Navigator.pop(context);
-                });
-              },
-              child: Text("Edit"))
+            onPressed: () {
+              ref.child("/" + widget.period.toString()).set({
+                "0": _subcontroller.text,
+                "1": "$shr:$smin-$ehr:$emin",
+                "2": _linkcontroller.text
+              }).then((value) {
+                Navigator.pop(context);
+              });
+            },
+            child: Text("Edit"),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(
+                Color(0xff005D76),
+              ),
+            ),
+          )
         ],
       ),
     ));

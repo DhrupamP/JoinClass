@@ -1,7 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 
 final database = FirebaseDatabase.instance.ref();
-String uid = "P3RGCPnA5ldTszcxHhwvUgSCTAt1";
+String uid = "";
 const List<String> weekDays = [
   'Monday',
   'Tuesday',

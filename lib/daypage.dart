@@ -3,8 +3,8 @@ import 'constants.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:joinclass/Components/edit_alert.dart';
-final database = FirebaseDatabase.instance.ref();
 
+final database = FirebaseDatabase.instance.ref();
 
 class DayPage extends StatefulWidget {
   const DayPage({Key? key, required this.day, required this.ans})
@@ -31,13 +31,13 @@ class _DayPageState extends State<DayPage> {
               builder: (_) {
                 return EditAlert(
                   day: widget.day,
-                  period: res.length==0 ? 1 : res.length,
+                  period: res.length == 0 ? 1 : res.length,
                 );
               });
         },
       ),
-      body:res.length==0 ?
-           Container(
+      body: res.length == 0
+          ? Container(
               child: Center(
               child: Text("Press + to add period"),
             ))

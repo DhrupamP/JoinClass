@@ -8,7 +8,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  runApp( MaterialApp(
+  runApp(MaterialApp(
     home: Register(),
   ));
 }
