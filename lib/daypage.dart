@@ -2,7 +2,7 @@ import 'Components/cell.dart';
 import 'constants.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-
+import 'package:joinclass/Components/edit_alert.dart';
 final database = FirebaseDatabase.instance.ref();
 bool isEmpty = false;
 
@@ -20,12 +20,20 @@ class _DayPageState extends State<DayPage> {
   @override
   Widget build(BuildContext context) {
     res = widget.ans;
-
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xff005D76),
         child: Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (_) {
+                return EditAlert(
+                  day: widget.day,
+                  period: res.length,
+                );
+              });
+        },
       ),
       body: isEmpty
           ? Container(

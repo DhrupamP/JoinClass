@@ -42,15 +42,13 @@ class _DaysBarState extends State<DaysBar> {
         });
       }
     }
-
     changeData() async {
       dynamic ans = await getData(weekDays[selectedindex]);
       setState(() {
         res = ans;
       });
     }
-
-    // changeData();
+    changeData();
     return SafeArea(
       child: Scaffold(
         body: Stack(children: [

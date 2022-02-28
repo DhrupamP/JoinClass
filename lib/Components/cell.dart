@@ -66,8 +66,7 @@ class _CellState extends State<Cell> {
                               period: widget.per,
                             );
                           });
-                      setState(() {
-                      });
+
                     },
                     icon: Icon(
                       Icons.edit,
