@@ -5,7 +5,7 @@ import 'package:joinclass/timetable.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'login.dart';
 
-final FirebaseAuth _auth=FirebaseAuth.instance;
+final FirebaseAuth auth=FirebaseAuth.instance;
 final database= FirebaseDatabase.instance.ref();
 
 class Register extends StatefulWidget {
@@ -17,7 +17,7 @@ class _RegisterState extends State<Register> {
 
   void _login() async {
     final UserCredential user = (await
-    _auth.signInWithEmailAndPassword(
+    auth.signInWithEmailAndPassword(
       email: username,
       password: password,
     ));
@@ -112,7 +112,7 @@ class _RegisterState extends State<Register> {
                                 ),
                               onPressed: () {
                                 hideKeyboard(context);
-                                _auth.createUserWithEmailAndPassword(
+                                auth.createUserWithEmailAndPassword(
                                   email: username,
                                   password: password,
                                 ).then((value){

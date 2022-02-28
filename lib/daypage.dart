@@ -4,7 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:joinclass/Components/edit_alert.dart';
 final database = FirebaseDatabase.instance.ref();
-bool isEmpty = false;
+
 
 class DayPage extends StatefulWidget {
   const DayPage({Key? key, required this.day, required this.ans})
@@ -20,6 +20,7 @@ class _DayPageState extends State<DayPage> {
   @override
   Widget build(BuildContext context) {
     res = widget.ans;
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xff005D76),
@@ -35,8 +36,8 @@ class _DayPageState extends State<DayPage> {
               });
         },
       ),
-      body: isEmpty
-          ? Container(
+      body:res.length==0 ?
+           Container(
               child: Center(
               child: Text("Press + to add period"),
             ))

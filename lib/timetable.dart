@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'daypage.dart';
 import 'constants.dart';
-
+import 'auth/register.dart';
+import 'auth/login.dart';
 class TimeTable extends StatefulWidget {
   const TimeTable({Key? key}) : super(key: key);
   @override
@@ -31,10 +32,13 @@ class DaysBar extends StatefulWidget {
 class _DaysBarState extends State<DaysBar> {
   @override
   Widget build(BuildContext context) {
+    void logOut(){
+      auth.signOut().then((value) => Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){return Login();})));
+    }
     changeData() async {
       dynamic ans = await getData(weekDays[selectedindex]);
-      print(ans);
-      if(ans!=""){
+      //print(ans);
+      if(ans!="" && ans!=null){
         setState(() {
           res = ans;
         });
@@ -43,7 +47,6 @@ class _DaysBarState extends State<DaysBar> {
         setState(() {
           res=[];
         });
-
     }
     void onItemTapped(int index) async {
       setState(() {
@@ -54,54 +57,64 @@ class _DaysBarState extends State<DaysBar> {
 
     changeData();
     return SafeArea(
-      child: Stack(children: [
-        Align(
-            alignment: Alignment(0, -0.5),
-            child: DayPage(day: weekDays[selectedindex], ans: res)),
-        Align(
-          alignment: Alignment(0, -1),
-          child: Container(
-            child: BottomNavigationBar(
-              backgroundColor: Color(0xff005D76),
-              type: BottomNavigationBarType.fixed,
-              items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.update),
-                  label: "M",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.update),
-                  label: "T",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.update),
-                  label: "W",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.update),
-                  label: "T",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.update),
-                  label: "F",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.update),
-                  label: "S",
-                ),
-              ],
-              selectedItemColor: Colors.white,
-              unselectedItemColor: Color(0xffD3E2E7),
-              selectedFontSize: 20,
-              selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-              selectedIconTheme: IconThemeData(opacity: 0.0, size: 0),
-              unselectedIconTheme: IconThemeData(opacity: 0.0, size: 0),
-              currentIndex: selectedindex,
-              onTap: onItemTapped,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Time Table'),
+          centerTitle: true,
+          actions: [IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: (){logOut();},
+          ),]
+        ),
+        body: Stack(children: [
+          Align(
+              alignment: Alignment(0, -0.5),
+              child: DayPage(day: weekDays[selectedindex], ans: res)),
+          Align(
+            alignment: Alignment(0, -1),
+            child: Container(
+              child: BottomNavigationBar(
+                backgroundColor: Color(0xff005D76),
+                type: BottomNavigationBarType.fixed,
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.update),
+                    label: "M",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.update),
+                    label: "T",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.update),
+                    label: "W",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.update),
+                    label: "T",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.update),
+                    label: "F",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.update),
+                    label: "S",
+                  ),
+                ],
+                selectedItemColor: Colors.white,
+                unselectedItemColor: Color(0xffD3E2E7),
+                selectedFontSize: 20,
+                selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+                selectedIconTheme: IconThemeData(opacity: 0.0, size: 0),
+                unselectedIconTheme: IconThemeData(opacity: 0.0, size: 0),
+                currentIndex: selectedindex,
+                onTap: onItemTapped,
+              ),
             ),
           ),
-        ),
-      ]),
+        ]),
+      ),
     );
   }
 }
