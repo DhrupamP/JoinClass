@@ -31,42 +31,38 @@ class DaysBar extends StatefulWidget {
 }
 
 class _DaysBarState extends State<DaysBar> {
+  changeData() async {
+    dynamic ans = await getData(weekDays[selectedindex]);
+    if (ans != "" && ans != null) {
+      setState(() {
+        res = ans;
+      });
+    } else
+      setState(() {
+        res = [];
+      });
+  }
+  @override
+  void initState() {
+    changeData();
+  }
   @override
   Widget build(BuildContext context) {
     void logOut() {
-      auth.signOut().then(
-            (value) => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return Login();
-                },
-              ),
-            ),
-          );
+      auth.signOut().then((value) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) {
+          return Login();
+        }));
+        uid = '';
+      });
     }
-
-    changeData() async {
-      dynamic ans = await getData(weekDays[selectedindex]);
-      //print(ans);
-      if (ans != "" && ans != null) {
-        setState(() {
-          res = ans;
-        });
-      } else
-        setState(() {
-          res = [];
-        });
-    }
-
     void onItemTapped(int index) async {
       setState(() {
         selectedindex = index;
       });
       changeData();
     }
-
-    changeData();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:joinclass/timetable.dart';
 import '../auth/register.dart';
 import 'package:joinclass/constants.dart' as constants;
 
 int? shr = 0;
 int? smin = 0;
-
 int? ehr = 0;
 int? emin = 0;
 
@@ -41,11 +41,8 @@ class _EditAlertState extends State<EditAlert> {
   @override
   Widget build(BuildContext context) {
     TextEditingController _subcontroller = TextEditingController();
-
     TextEditingController _linkcontroller = TextEditingController();
-
     final ref = database.child(constants.uid + "/" + widget.day);
-
     _subcontroller.text = res == null ? "" : res[0].toString();
     _linkcontroller.text = res == null ? "" : res[2].toString();
     return AlertDialog(
@@ -120,7 +117,7 @@ class _EditAlertState extends State<EditAlert> {
           ),
           TextField(
             controller: _linkcontroller,
-            decoration: InputDecoration(hintText: "link"),
+            decoration: InputDecoration(hintText: "Link"),
           ),
           SizedBox(
             height: 20,
@@ -136,6 +133,8 @@ class _EditAlertState extends State<EditAlert> {
                     "2": _linkcontroller.text
                   }).then((value) {
                     Navigator.pop(context);
+                    Navigator.pop(context);
+                    Navigator.push(context, MaterialPageRoute(builder: (context){return TimeTable();}));
                   });
                   setState(() {
                     shr = smin = ehr = emin = 0;
@@ -154,6 +153,8 @@ class _EditAlertState extends State<EditAlert> {
                     ref.child(widget.period.toString()).remove();
                   });
                   Navigator.pop(context);
+                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (context){return TimeTable();}));
                 },
                 child: Text("Delete"),
                 style: ButtonStyle(

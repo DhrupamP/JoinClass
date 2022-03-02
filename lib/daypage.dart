@@ -2,7 +2,7 @@ import 'Components/cell.dart';
 import 'constants.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:joinclass/Components/edit_alert.dart';
+import 'package:joinclass/Components/add_alert.dart';
 
 final database = FirebaseDatabase.instance.ref();
 
@@ -20,24 +20,26 @@ class _DayPageState extends State<DayPage> {
   @override
   Widget build(BuildContext context) {
     res = widget.ans;
+
+    print(res.length);
+    print(res);
     DatabaseReference refer = database.child(uid + "/" + widget.day);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xff005D76),
         child: Icon(Icons.add),
         onPressed: () {
-          print(res);
           showDialog(
               context: context,
               builder: (_) {
-                return EditAlert(
+                return AddAlert(
                   day: widget.day,
-                  period: res.length == 0 ? 1 : res.length,
+                  period: res.length,
                 );
               });
         },
       ),
-      body: res.length == 1
+      body: res.length < 3
           ? Container(
               child: Center(
                 child: Text("Press + to add period"),

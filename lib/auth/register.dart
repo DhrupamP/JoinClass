@@ -20,12 +20,14 @@ class _RegisterState extends State<Register> {
       password: password,
     ));
     if (user.user != null) {
-      /* SharedPreferences pref=await SharedPreferences.getInstance();
-      pref.setString('uid', username);*/
       uid = user.user!.uid;
       var map = {};
-      weekDays.forEach((day) => map[day] = "");
+      weekDays.forEach((day) => map[day] ="");
       database.child('/' + uid).set(map);
+      weekDays.forEach((day){
+        print('yes');
+        database.child('/'+uid+'/'+day.toString()+'/1').set("init");
+      });
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) {
         return const TimeTable();
