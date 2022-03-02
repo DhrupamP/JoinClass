@@ -20,12 +20,13 @@ class _DayPageState extends State<DayPage> {
   @override
   Widget build(BuildContext context) {
     res = widget.ans;
-
+    DatabaseReference refer = database.child(uid + "/" + widget.day);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xff005D76),
         child: Icon(Icons.add),
         onPressed: () {
+          print(res);
           showDialog(
               context: context,
               builder: (_) {
@@ -36,17 +37,24 @@ class _DayPageState extends State<DayPage> {
               });
         },
       ),
-      body: res.length == 0
+      body: res.length == 1
           ? Container(
               child: Center(
-              child: Text("Press + to add period"),
-            ))
+                child: Text("Press + to add period"),
+              ),
+            )
           : Padding(
               padding: EdgeInsets.only(top: 60),
               child: FutureBuilder(builder: (context, snapshot) {
                 return ListView.builder(
                     itemCount: res.length - 1,
                     itemBuilder: (_, int idx) {
+                      if (res[idx + 1] == null) {
+                        return Container();
+                      }
+                      if (idx + 1 == 1) {
+                        return Container();
+                      }
                       return Cell(
                         sub: res[idx + 1][0].toString(),
                         per: idx + 1,

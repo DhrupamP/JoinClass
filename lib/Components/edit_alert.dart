@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:joinclass/timetable.dart';
-
 import '../auth/register.dart';
 import 'package:joinclass/constants.dart' as constants;
 
-int? shr;
-int? smin;
+int? shr = 0;
+int? smin = 0;
 
-int? ehr;
-int? emin;
+int? ehr = 0;
+int? emin = 0;
 
 class EditAlert extends StatefulWidget {
   const EditAlert({Key? key, required this.day, required this.period})
@@ -35,6 +33,12 @@ class _EditAlertState extends State<EditAlert> {
   }
 
   @override
+  void dispose() {
+    smin = shr = emin = ehr = 0;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     TextEditingController _subcontroller = TextEditingController();
 
@@ -57,9 +61,10 @@ class _EditAlertState extends State<EditAlert> {
             height: 20,
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
-                child: Text("Start time"),
+                child: Text(shr.toString() + ":" + smin.toString()),
                 onPressed: () async {
                   final TimeOfDay? result = await showTimePicker(
                       context: context,
@@ -70,8 +75,10 @@ class _EditAlertState extends State<EditAlert> {
                                 .copyWith(alwaysUse24HourFormat: false),
                             child: child!);
                       });
-                  shr = result?.hour;
-                  smin = result?.minute;
+                  setState(() {
+                    shr = result?.hour;
+                    smin = result?.minute;
+                  });
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
@@ -81,9 +88,10 @@ class _EditAlertState extends State<EditAlert> {
               ),
               SizedBox(
                 width: 20,
+                child: Text("to"),
               ),
               ElevatedButton(
-                child: Text("End time"),
+                child: Text(ehr.toString() + ":" + emin.toString()),
                 onPressed: () async {
                   final TimeOfDay? result = await showTimePicker(
                       context: context,
@@ -94,8 +102,10 @@ class _EditAlertState extends State<EditAlert> {
                                 .copyWith(alwaysUse24HourFormat: false),
                             child: child!);
                       });
-                  ehr = result?.hour;
-                  emin = result?.minute;
+                  setState(() {
+                    ehr = result?.hour;
+                    emin = result?.minute;
+                  });
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
@@ -115,22 +125,41 @@ class _EditAlertState extends State<EditAlert> {
           SizedBox(
             height: 20,
           ),
-          ElevatedButton(
-            onPressed: () {
-              ref.child("/" + widget.period.toString()).set({
-                "0": _subcontroller.text,
-                "1": "$shr:$smin-$ehr:$emin",
-                "2": _linkcontroller.text
-              }).then((value) {
-                Navigator.pop(context);
-              });
-            },
-            child: Text("Edit"),
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                Color(0xff005D76),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  ref.child("/" + widget.period.toString()).set({
+                    "0": _subcontroller.text,
+                    "1": "$shr:$smin-$ehr:$emin",
+                    "2": _linkcontroller.text
+                  }).then((value) {
+                    Navigator.pop(context);
+                  });
+                  setState(() {
+                    shr = smin = ehr = emin = 0;
+                  });
+                },
+                child: Text("Edit"),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    Color(0xff005D76),
+                  ),
+                ),
               ),
-            ),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    ref.child(widget.period.toString()).remove();
+                  });
+                  Navigator.pop(context);
+                },
+                child: Text("Delete"),
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.red)),
+              )
+            ],
           )
         ],
       ),

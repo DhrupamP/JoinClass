@@ -14,6 +14,8 @@ const List<String> weekDays = [
 Future getData(String da) async {
   DatabaseReference dayref = database.child("/" + uid + "/" + da);
   DatabaseEvent event = await dayref.once();
+  print("lkdlnd------------------------");
+  print(event.snapshot.value);
   return event.snapshot.value;
 }
 

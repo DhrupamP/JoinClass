@@ -34,10 +34,16 @@ class _DaysBarState extends State<DaysBar> {
   @override
   Widget build(BuildContext context) {
     void logOut() {
-      auth.signOut().then((value) => Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) {
-            return Login();
-          })));
+      auth.signOut().then(
+            (value) => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return Login();
+                },
+              ),
+            ),
+          );
     }
 
     changeData() async {
@@ -63,14 +69,28 @@ class _DaysBarState extends State<DaysBar> {
     changeData();
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: Text('Time Table'), centerTitle: true, actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () {
-              logOut();
-            },
+        appBar: AppBar(
+          title: Text(
+            'Time Table',
+            style: TextStyle(
+                color: Colors.blueGrey,
+                fontWeight: FontWeight.bold,
+                fontSize: 25),
           ),
-        ]),
+          centerTitle: true,
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.logout,
+                color: Colors.blueGrey,
+              ),
+              onPressed: () {
+                logOut();
+              },
+            ),
+          ],
+          backgroundColor: Color(0xffD3E2E7),
+        ),
         body: Stack(children: [
           Align(
               alignment: Alignment(0, -0.5),
@@ -119,6 +139,43 @@ class _DaysBarState extends State<DaysBar> {
             ),
           ),
         ]),
+        //row method
+        // body: Stack(
+        //   children: [
+        //     Align(
+        //       alignment: Alignment(0, -1),
+        //       child: Row(
+        //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //         children: [
+        //           TextButton(
+        //             onPressed: () {},
+        //             child: Text("M"),
+        //           ),
+        //           TextButton(
+        //             onPressed: () {},
+        //             child: Text("T"),
+        //           ),
+        //           TextButton(
+        //             onPressed: () {},
+        //             child: Text("W"),
+        //           ),
+        //           TextButton(
+        //             onPressed: () {},
+        //             child: Text("T"),
+        //           ),
+        //           TextButton(
+        //             onPressed: () {},
+        //             child: Text("F"),
+        //           ),
+        //           TextButton(
+        //             onPressed: () {},
+        //             child: Text("S"),
+        //           ),
+        //         ],
+        //       ),
+        //     )
+        //   ],
+        // ),
       ),
     );
   }
