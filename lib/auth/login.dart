@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:joinclass/constants.dart';
 import 'package:joinclass/timetable.dart';
 import 'register.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class Login extends StatefulWidget {
@@ -19,8 +19,8 @@ class _LoginState extends State<Login> {
       password: password,
     ));
     if (user.user != null) {
-      /* SharedPreferences pref=await SharedPreferences.getInstance();
-      pref.setString('uid', username);*/
+      SharedPreferences pref=await SharedPreferences.getInstance();
+      pref.setString('uid', user.user!.uid);
       uid = user.user!.uid;
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) {

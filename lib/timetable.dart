@@ -4,7 +4,7 @@ import 'daypage.dart';
 import 'constants.dart';
 import 'auth/register.dart';
 import 'auth/login.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 class TimeTable extends StatefulWidget {
   const TimeTable({Key? key}) : super(key: key);
   @override
@@ -51,7 +51,9 @@ class _DaysBarState extends State<DaysBar> {
 
   @override
   Widget build(BuildContext context) {
-    void logOut() {
+    void logOut() async {
+      SharedPreferences pref=await SharedPreferences.getInstance();
+      pref.remove('uid');
       auth.signOut().then((value) {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) {
