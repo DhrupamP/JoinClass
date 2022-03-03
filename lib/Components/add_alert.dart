@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:joinclass/Components/loading.dart';
 import 'package:joinclass/timetable.dart';
 import '../auth/register.dart';
 import 'package:joinclass/constants.dart' as constants;
-
+import 'loading.dart';
 int? shr = 0;
 int? smin = 0;
 int? ehr = 0;
@@ -28,6 +29,7 @@ class _AddAlertState extends State<AddAlert> {
 
   @override
   Widget build(BuildContext context) {
+    bool _loading=false;
     TextEditingController _subcontroller = TextEditingController();
     TextEditingController _linkcontroller = TextEditingController();
     _subcontroller.text = subtxt.toString() == null ? "" : subtxt.toString();
@@ -35,7 +37,7 @@ class _AddAlertState extends State<AddAlert> {
 
     final ref = database.child(constants.uid + "/" + widget.day);
 
-    return AlertDialog(
+    return _loading ? Loading() : AlertDialog(
         content: Container(
       height: 260,
       child: Column(
@@ -125,6 +127,9 @@ class _AddAlertState extends State<AddAlert> {
             children: [
               ElevatedButton(
                 onPressed: () {
+                  setState(() {
+                    _loading=true;
+                  });
                   ref.child("/" + widget.period.toString()).set({
                     "0": _subcontroller.text,
                     "1": "$shr:$smin-$ehr:$emin",
@@ -132,6 +137,9 @@ class _AddAlertState extends State<AddAlert> {
                   }).then((value) {
                     Navigator.pop(context);
                     Navigator.pop(context);
+                    setState(() {
+                      _loading=false;
+                    });
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return TimeTable();

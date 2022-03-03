@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:joinclass/Components/loading.dart';
 import 'package:joinclass/timetable.dart';
 import '../auth/register.dart';
 import 'package:joinclass/constants.dart' as constants;
@@ -19,10 +20,15 @@ class EditAlert extends StatefulWidget {
 
 class _EditAlertState extends State<EditAlert> {
   var res;
+  bool _loading=false;
   getPeriod() async {
+    setState(() {
+      _loading=true;
+    });
     dynamic ans = await constants.getsublink(widget.day, widget.period);
     setState(() {
       res = ans;
+      _loading=false;
     });
   }
 
@@ -45,7 +51,7 @@ class _EditAlertState extends State<EditAlert> {
     final ref = database.child(constants.uid + "/" + widget.day);
     _subcontroller.text = res == null ? "" : res[0].toString();
     _linkcontroller.text = res == null ? "" : res[2].toString();
-    return AlertDialog(
+    return _loading ? Loading() : AlertDialog(
         content: Container(
       height: 260,
       child: Column(
@@ -127,6 +133,9 @@ class _EditAlertState extends State<EditAlert> {
             children: [
               ElevatedButton(
                 onPressed: () {
+                  setState(() {
+                    _loading=true;
+                  });
                   ref.child("/" + widget.period.toString()).set({
                     "0": _subcontroller.text,
                     "1": "$shr:$smin-$ehr:$emin",
@@ -134,6 +143,9 @@ class _EditAlertState extends State<EditAlert> {
                   }).then((value) {
                     Navigator.pop(context);
                     Navigator.pop(context);
+                    setState(() {
+                      _loading=false;
+                    });
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return TimeTable();

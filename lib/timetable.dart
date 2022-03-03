@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:joinclass/Components/loading.dart';
 import 'daypage.dart';
 import 'constants.dart';
 import 'auth/register.dart';
@@ -32,14 +33,20 @@ class DaysBar extends StatefulWidget {
 }
 
 class _DaysBarState extends State<DaysBar> {
+  bool _loading=false;
   changeData() async {
+    setState(() {
+      _loading=true;
+    });
     dynamic ans = await getData(weekDays[selectedindex]);
     if (ans != "" && ans != null) {
       setState(() {
         res = ans;
+        _loading=false;
       });
     } else
       setState(() {
+        _loading=false;
         res = [];
       });
   }
@@ -62,7 +69,6 @@ class _DaysBarState extends State<DaysBar> {
         uid = '';
       });
     }
-
     void onItemTapped(int index) async {
       setState(() {
         selectedindex = index;
@@ -70,7 +76,7 @@ class _DaysBarState extends State<DaysBar> {
       changeData();
     }
 
-    return SafeArea(
+    return _loading ? Loading() : SafeArea(
       child: Scaffold(
         appBar: AppBar(
           title: Text(

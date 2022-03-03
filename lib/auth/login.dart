@@ -13,6 +13,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  bool _loading=false;
   void _login() async {
     final UserCredential user = (await _auth.signInWithEmailAndPassword(
       email: username,
@@ -134,6 +135,9 @@ class _LoginState extends State<Login> {
                       textStyle: const TextStyle(fontSize: 20),
                     ),
                     onPressed: () {
+                      setState(() {
+                        _loading=true;
+                      });
                       Navigator.of(context).pushReplacement(
                           MaterialPageRoute(builder: (context) {
                         return Register();

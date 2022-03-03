@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
+import 'package:joinclass/Components/loading.dart';
 import 'package:joinclass/constants.dart';
 import 'package:joinclass/timetable.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -15,6 +16,7 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  bool _loading=false;
   void _login() async {
     final UserCredential user = (await auth.signInWithEmailAndPassword(
       email: username,
@@ -40,7 +42,7 @@ class _RegisterState extends State<Register> {
   final _formKey1 = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return _loading ? Loading() : Scaffold(
       // backgroundColor: Color(0xffD3E2E7),
       resizeToAvoidBottomInset: true,
       body: Padding(
@@ -129,6 +131,9 @@ class _RegisterState extends State<Register> {
                             style: TextStyle(fontSize: 20),
                           ),
                           onPressed: () {
+                            setState(() {
+                              _loading=true;
+                            });
                             hideKeyboard(context);
                             auth
                                 .createUserWithEmailAndPassword(
