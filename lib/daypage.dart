@@ -1,3 +1,5 @@
+import 'package:google_fonts/google_fonts.dart';
+
 import 'Components/cell.dart';
 import 'constants.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -42,7 +44,11 @@ class _DayPageState extends State<DayPage> {
       body: res.length < 3
           ? Container(
               child: Center(
-                child: Text("Press + to add period"),
+                child: Text(
+                  "Press + to add period",
+                  style:
+                      TextStyle(fontSize: 25, color: Colors.blueGrey.shade600),
+                ),
               ),
             )
           : Padding(

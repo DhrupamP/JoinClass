@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'daypage.dart';
 import 'constants.dart';
 import 'auth/register.dart';
@@ -42,36 +43,41 @@ class _DaysBarState extends State<DaysBar> {
         res = [];
       });
   }
+
   @override
   void initState() {
     changeData();
   }
+
   @override
   Widget build(BuildContext context) {
     void logOut() {
       auth.signOut().then((value) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) {
           return Login();
         }));
         uid = '';
       });
     }
+
     void onItemTapped(int index) async {
       setState(() {
         selectedindex = index;
       });
       changeData();
     }
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'Time Table',
+            'Join Class',
             style: TextStyle(
-                color: Colors.blueGrey,
-                fontWeight: FontWeight.bold,
-                fontSize: 25),
+              color: Colors.blueGrey.shade600,
+              fontWeight: FontWeight.bold,
+              fontSize: 25,
+            ),
           ),
           centerTitle: true,
           actions: [

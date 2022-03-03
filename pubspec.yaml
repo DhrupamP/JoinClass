@@ -39,6 +39,7 @@ dependencies:
   firebase_auth:
   http:
   url_launcher: ^6.0.20
+  google_fonts:
 
 dev_dependencies:
   flutter_test:
@@ -92,3 +93,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: DmSans
+      fonts:
+        - asset: assets/fonts/DMSans-Regular.ttf

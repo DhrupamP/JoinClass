@@ -134,7 +134,10 @@ class _EditAlertState extends State<EditAlert> {
                   }).then((value) {
                     Navigator.pop(context);
                     Navigator.pop(context);
-                    Navigator.push(context, MaterialPageRoute(builder: (context){return TimeTable();}));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return TimeTable();
+                    }));
                   });
                   setState(() {
                     shr = smin = ehr = emin = 0;
@@ -154,7 +157,9 @@ class _EditAlertState extends State<EditAlert> {
                   });
                   Navigator.pop(context);
                   Navigator.pop(context);
-                  Navigator.push(context, MaterialPageRoute(builder: (context){return TimeTable();}));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return TimeTable();
+                  }));
                 },
                 child: Text("Delete"),
                 style: ButtonStyle(

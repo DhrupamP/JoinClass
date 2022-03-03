@@ -22,11 +22,12 @@ class _RegisterState extends State<Register> {
     if (user.user != null) {
       uid = user.user!.uid;
       var map = {};
-      weekDays.forEach((day) => map[day] ="");
+      weekDays.forEach((day) => map[day] = "");
       database.child('/' + uid).set(map);
-      weekDays.forEach((day){
+      weekDays.forEach((day) {
         print('yes');
-        database.child('/'+uid+'/'+day.toString()+'/1').set("init");
+        database.child('/' + uid + '/' + day.toString() + '/0').set("init");
+        database.child('/' + uid + '/' + day.toString() + '/1').set("init");
       });
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) {
@@ -59,7 +60,7 @@ class _RegisterState extends State<Register> {
                   Text(
                     'Welcome OnBoard!',
                     style: TextStyle(
-                        fontSize: 40,
+                        fontSize: 39,
                         fontWeight: FontWeight.bold,
                         color: Colors.blueGrey),
                   ),
