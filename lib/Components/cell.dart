@@ -45,9 +45,11 @@ class _CellState extends State<Cell> {
             height: 100,
             width: 100,
             decoration: BoxDecoration(
-                color: Color(0xffD3E2E7),
-                // border: Border.all(color: Colors.black),
-                borderRadius: BorderRadius.all(Radius.circular(30))),
+              color: Color(0xffD3E2E7),
+              borderRadius: BorderRadius.all(
+                Radius.circular(30),
+              ),
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

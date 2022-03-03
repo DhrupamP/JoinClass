@@ -7,6 +7,7 @@ import 'package:joinclass/timetable.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 final FirebaseAuth auth = FirebaseAuth.instance;
 final database = FirebaseDatabase.instance.ref();
 
@@ -23,12 +24,20 @@ class _RegisterState extends State<Register> {
       password: password,
     ));
     if (user.user != null) {
-      SharedPreferences pref=await SharedPreferences.getInstance();
+      SharedPreferences pref = await SharedPreferences.getInstance();
       pref.setString('uid', user.user!.uid);
       uid = user.user!.uid;
       var map = {};
-      weekDays.forEach((day) => map[day] = [['init']]);
+      weekDays.forEach((day) => map[day] = [
+            ['init']
+          ]);
       database.child('/' + uid).set(map);
+
+      /* weekDays.forEach((day) {
+        print('yes');
+        database.child('/' + uid + '/' + day.toString() + '/0').set("init");
+        database.child('/' + uid + '/' + day.toString() + '/1').set("init");
+      });*/
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) {
         return const TimeTable();

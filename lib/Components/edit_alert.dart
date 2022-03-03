@@ -8,6 +8,8 @@ int? shr = 0;
 int? smin = 0;
 int? ehr = 0;
 int? emin = 0;
+String? subtxt = "";
+String? linktxt = "";
 
 class EditAlert extends StatefulWidget {
   const EditAlert({Key? key, required this.day, required this.period})
@@ -69,6 +71,8 @@ class _EditAlertState extends State<EditAlert> {
               ElevatedButton(
                 child: Text(shr.toString() + ":" + smin.toString()),
                 onPressed: () async {
+                  subtxt = _subcontroller.text.toString();
+                  linktxt = _linkcontroller.text.toString();
                   final TimeOfDay? result = await showTimePicker(
                       context: context,
                       initialTime: TimeOfDay.now(),
@@ -96,6 +100,8 @@ class _EditAlertState extends State<EditAlert> {
               ElevatedButton(
                 child: Text(ehr.toString() + ":" + emin.toString()),
                 onPressed: () async {
+                  subtxt = _subcontroller.text.toString();
+                  linktxt = _linkcontroller.text.toString();
                   final TimeOfDay? result = await showTimePicker(
                       context: context,
                       initialTime: TimeOfDay.now(),
@@ -108,6 +114,8 @@ class _EditAlertState extends State<EditAlert> {
                   setState(() {
                     ehr = result?.hour;
                     emin = result?.minute;
+                    _subcontroller.text = subtxt.toString();
+                    _linkcontroller.text = linktxt.toString();
                   });
                 },
                 style: ButtonStyle(
@@ -153,6 +161,8 @@ class _EditAlertState extends State<EditAlert> {
                   });
                   setState(() {
                     shr = smin = ehr = emin = 0;
+                    subtxt = "";
+                    linktxt = "";
                   });
                 },
                 child: Text("Edit"),
