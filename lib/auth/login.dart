@@ -63,6 +63,7 @@ class _LoginState extends State<Login> {
                         }
                         return null;
                       },
+                      keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         contentPadding:
                             const EdgeInsets.symmetric(vertical: 4.0),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/widgets.dart';
 import 'package:joinclass/constants.dart';
 import 'package:joinclass/timetable.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -22,13 +23,13 @@ class _RegisterState extends State<Register> {
     if (user.user != null) {
       uid = user.user!.uid;
       var map = {};
-      weekDays.forEach((day) => map[day] = "");
+      weekDays.forEach((day) => map[day] = [['init']]);
       database.child('/' + uid).set(map);
-      weekDays.forEach((day) {
+     /* weekDays.forEach((day) {
         print('yes');
         database.child('/' + uid + '/' + day.toString() + '/0').set("init");
         database.child('/' + uid + '/' + day.toString() + '/1').set("init");
-      });
+      });*/
       Navigator.of(context)
           .pushReplacement(MaterialPageRoute(builder: (context) {
         return const TimeTable();
@@ -72,6 +73,7 @@ class _RegisterState extends State<Register> {
                         }
                         return null;
                       },
+                      keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         fillColor: Colors.red,
                         contentPadding: EdgeInsets.symmetric(vertical: 4.0),

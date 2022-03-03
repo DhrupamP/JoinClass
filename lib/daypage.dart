@@ -41,7 +41,7 @@ class _DayPageState extends State<DayPage> {
               });
         },
       ),
-      body: res.length < 3
+      body: res.length < 2
           ? Container(
               child: Center(
                 child: Text(
@@ -58,9 +58,6 @@ class _DayPageState extends State<DayPage> {
                     itemCount: res.length - 1,
                     itemBuilder: (_, int idx) {
                       if (res[idx + 1] == null) {
-                        return Container();
-                      }
-                      if (idx + 1 == 1) {
                         return Container();
                       }
                       return Cell(
