@@ -4,6 +4,7 @@ import 'package:joinclass/constants.dart';
 import 'package:joinclass/timetable.dart';
 import 'register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:joinclass/Components/loading.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class Login extends StatefulWidget {
@@ -15,11 +16,11 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   bool _loading=false;
   void _login() async {
-    final UserCredential user = (await _auth.signInWithEmailAndPassword(
-      email: username,
-      password: password,
-    ));
-    if (user.user != null) {
+    try{
+      UserCredential user = (await _auth.signInWithEmailAndPassword(
+        email: username,
+        password: password,
+      ));
       SharedPreferences pref=await SharedPreferences.getInstance();
       pref.setString('uid', user.user!.uid);
       uid = user.user!.uid;
@@ -27,6 +28,13 @@ class _LoginState extends State<Login> {
           .pushReplacement(MaterialPageRoute(builder: (context) {
         return const TimeTable();
       }));
+    } on FirebaseAuthException catch(e)
+    {
+      if (e.code == 'user-not-found') {
+        _showError( context,'No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        _showError( context,'Wrong password');
+      }
     }
   }
 
@@ -36,7 +44,7 @@ class _LoginState extends State<Login> {
   final _formKey1 = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return _loading ? Loading() : Scaffold(
       resizeToAvoidBottomInset: true,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -81,6 +89,7 @@ class _LoginState extends State<Login> {
                       }),
                   SizedBox(height: 20),
                   TextFormField(
+                      validator: (value)=>validatePassword(value.toString()),
                       decoration: InputDecoration(
                         contentPadding:
                             const EdgeInsets.symmetric(vertical: 4.0),
@@ -123,7 +132,9 @@ class _LoginState extends State<Login> {
                             style: TextStyle(fontSize: 20),
                           ),
                           onPressed: () {
-                            _login();
+                            hideKeyboard(context);
+                            if(_formKey1.currentState!.validate())
+                              _login();
                           },
                         )),
                   ),
@@ -135,9 +146,7 @@ class _LoginState extends State<Login> {
                       textStyle: const TextStyle(fontSize: 20),
                     ),
                     onPressed: () {
-                      setState(() {
-                        _loading=true;
-                      });
+
                       Navigator.of(context).pushReplacement(
                           MaterialPageRoute(builder: (context) {
                         return Register();
@@ -158,4 +167,40 @@ class _LoginState extends State<Login> {
 
 void hideKeyboard(BuildContext context) {
   FocusScope.of(context).requestFocus(FocusNode());
+}
+
+void _showError(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      backgroundColor: Colors.redAccent,
+      content: Text(
+        message,
+        style: TextStyle(fontSize: 15),
+      ),
+    ),
+  );
+}
+String? validatePassword(String value){
+  /*Pattern lower = r'^(?=.*?[a-z])';
+  Pattern upper = r'^(?=.*?[A-Z])';
+  Pattern number= r'^(?=.*?[0-9])';*/
+  RegExp regex1 = new RegExp(r'^(?=.*?[a-z])');
+  RegExp regex2 = new RegExp(r'^(?=.*?[A-Z])');
+  RegExp regex3 = new RegExp(r'^(?=.*?[0-9])');
+  if(value.isEmpty){
+    return 'This Field is Required';
+  }
+  if(!regex1.hasMatch(value)){
+    return 'Password must contain lowercase letters';
+  }
+/*  if(!regex2.hasMatch(value)){
+    return 'Password must contain uppercase letters';
+  }
+  if(!regex3.hasMatch(value)){
+    return 'Password must contain numbers';
+  }*/
+  if(value.length<6) {
+    return 'Length must be greater than 6 characters';
+  }
+  return null;
 }

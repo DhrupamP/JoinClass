@@ -98,6 +98,7 @@ class _RegisterState extends State<Register> {
                       }),
                   SizedBox(height: 20),
                   TextFormField(
+                      validator: (value)=>validatePassword(value.toString()),
                       decoration: InputDecoration(
                         contentPadding:
                             const EdgeInsets.symmetric(vertical: 4.0),
@@ -140,18 +141,20 @@ class _RegisterState extends State<Register> {
                             style: TextStyle(fontSize: 20),
                           ),
                           onPressed: () {
-                            setState(() {
-                              _loading=true;
-                            });
                             hideKeyboard(context);
-                            auth
-                                .createUserWithEmailAndPassword(
-                              email: username,
-                              password: password,
-                            )
-                                .then((value) {
-                              _login();
-                            });
+                            if(_formKey1.currentState!.validate()) {
+                              setState(() {
+                                _loading=true;
+                              });
+                                auth
+                                    .createUserWithEmailAndPassword(
+                                  email: username,
+                                  password: password,
+                                )
+                                    .then((value) {
+                                  _login();
+                                });
+                            };
                           },
                         )),
                   ),
@@ -184,4 +187,39 @@ class _RegisterState extends State<Register> {
 
 void hideKeyboard(BuildContext context) {
   FocusScope.of(context).requestFocus(FocusNode());
+}
+void _showError(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      backgroundColor: Colors.redAccent,
+      content: Text(
+        message,
+        style: TextStyle(fontSize: 15),
+      ),
+    ),
+  );
+}
+String? validatePassword(String value){
+  /*Pattern lower = r'^(?=.*?[a-z])';
+  Pattern upper = r'^(?=.*?[A-Z])';
+  Pattern number= r'^(?=.*?[0-9])';*/
+  RegExp regex1 = new RegExp(r'^(?=.*?[a-z])');
+  RegExp regex2 = new RegExp(r'^(?=.*?[A-Z])');
+  RegExp regex3 = new RegExp(r'^(?=.*?[0-9])');
+  if(value.isEmpty){
+    return 'This Field is Required';
+  }
+  if(!regex1.hasMatch(value)){
+    return 'Password must contain lowercase letters';
+  }
+  /*if(!regex2.hasMatch(value)){
+    return 'Password must contain uppercase letters';
+  }
+  if(!regex3.hasMatch(value)){
+    return 'Password must contain numbers';
+  }*/
+  if(value.length<6) {
+    return 'Length must be greater than 6 characters';
+  }
+  return null;
 }
